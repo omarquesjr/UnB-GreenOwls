@@ -1,0 +1,23 @@
+{
+  "name": "UnB Green Owls - Esports Club",
+  "short_name": "Green Owls",
+  "description": "Clube de esportes eletrônicos da Universidade de Brasília",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/images/green-owls.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/green-owls.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
