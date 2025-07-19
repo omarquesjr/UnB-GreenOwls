@@ -1,0 +1,228 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id          String   @id @default(cuid())
+  nome        String
+  email       String   @unique
+  senhaHash   String   @map("senha_hash")
+  funcao      Funcao   @default(PUBLICO)
+  dataCriacao DateTime @default(now()) @map("data_criacao")
+
+  // Relacionamentos
+  perfilPlayer     PerfilPlayer?
+  timesResponsavel Time[]        @relation("ResponsavelTime")
+  membrosTime      MembroTime[]
+  noticias         Noticia[]
+  comentarios      Comentario[]
+  produtos         Produto[]
+  pedidos          Pedido[]
+
+  @@map("usuarios")
+}
+
+model PerfilPlayer {
+  id            String  @id @default(cuid())
+  usuarioId     String  @unique @map("usuario_id")
+  nickname      String
+  bio           String?
+  fotoUrl       String? @map("foto_url")
+  socialTwitter String? @map("social_twitter")
+  socialTwitch  String? @map("social_twitch")
+
+  // Relacionamentos
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@map("perfis_players")
+}
+
+model Time {
+  id            String   @id @default(cuid())
+  nome          String
+  modalidade    String
+  logoUrl       String?  @map("logo_url")
+  responsavelId String   @map("responsavel_id")
+  dataCriacao   DateTime @default(now()) @map("data_criacao")
+
+  // Relacionamentos
+  responsavel    Usuario         @relation("ResponsavelTime", fields: [responsavelId], references: [id])
+  membros        MembroTime[]
+  agendaEventos  AgendaEvento[]
+  partidasTimeA  Partida[]       @relation("TimeA")
+  partidasTimeB  Partida[]       @relation("TimeB")
+
+  @@map("times")
+}
+
+model MembroTime {
+  timeId          String   @map("time_id")
+  playerUsuarioId String   @map("player_usuario_id")
+  isCapitao       Boolean  @default(false) @map("is_capitao")
+  dataEntrada     DateTime @default(now()) @map("data_entrada")
+
+  // Relacionamentos
+  time   Time    @relation(fields: [timeId], references: [id], onDelete: Cascade)
+  player Usuario @relation(fields: [playerUsuarioId], references: [id], onDelete: Cascade)
+
+  @@id([timeId, playerUsuarioId])
+  @@map("membros_time")
+}
+
+model AgendaEvento {
+  id              String      @id @default(cuid())
+  timeId          String      @map("time_id")
+  titulo          String
+  descricao       String
+  dataHoraInicio  DateTime    @map("data_hora_inicio")
+  dataHoraFim     DateTime    @map("data_hora_fim")
+  tipoEvento      TipoEvento  @map("tipo_evento")
+
+  // Relacionamentos
+  time Time @relation(fields: [timeId], references: [id], onDelete: Cascade)
+
+  @@map("agenda_eventos")
+}
+
+model Noticia {
+  id              String        @id @default(cuid())
+  titulo          String
+  subtitulo       String?
+  conteudo        String
+  autorId         String        @map("autor_id")
+  categoria       String
+  status          StatusNoticia @default(RASCUNHO)
+  dataPublicacao  DateTime      @default(now()) @map("data_publicacao")
+
+  // Relacionamentos
+  autor       Usuario      @relation(fields: [autorId], references: [id])
+  comentarios Comentario[]
+
+  @@map("noticias")
+}
+
+model Comentario {
+  id              String   @id @default(cuid())
+  noticiaId       String   @map("noticia_id")
+  autorId         String   @map("autor_id")
+  conteudo        String
+  dataPublicacao  DateTime @default(now()) @map("data_publicacao")
+
+  // Relacionamentos
+  noticia Noticia @relation(fields: [noticiaId], references: [id], onDelete: Cascade)
+  autor   Usuario @relation(fields: [autorId], references: [id])
+
+  @@map("comentarios")
+}
+
+model Produto {
+  id          String @id @default(cuid())
+  nome        String
+  descricao   String
+  preco       Float
+  estoque     Int
+  categoria   String
+  criadoPorId String @map("criado_por_id")
+
+  // Relacionamentos
+  criadoPor   Usuario      @relation(fields: [criadoPorId], references: [id])
+  itensPedido ItemPedido[]
+
+  @@map("produtos")
+}
+
+model Pedido {
+  id         String        @id @default(cuid())
+  clienteId  String        @map("cliente_id")
+  valorTotal Float         @map("valor_total")
+  status     StatusPedido  @default(PROCESSANDO)
+  dataPedido DateTime      @default(now()) @map("data_pedido")
+
+  // Relacionamentos
+  cliente Usuario      @relation(fields: [clienteId], references: [id])
+  itens   ItemPedido[]
+
+  @@map("pedidos")
+}
+
+model ItemPedido {
+  pedidoId       String @map("pedido_id")
+  produtoId      String @map("produto_id")
+  quantidade     Int
+  precoUnitario  Float  @map("preco_unitario")
+
+  // Relacionamentos
+  pedido  Pedido  @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  produto Produto @relation(fields: [produtoId], references: [id])
+
+  @@id([pedidoId, produtoId])
+  @@map("itens_pedido")
+}
+
+model Competicao {
+  id         String   @id @default(cuid())
+  nome       String
+  dataInicio DateTime @map("data_inicio")
+  dataFim    DateTime @map("data_fim")
+
+  // Relacionamentos
+  partidas Partida[]
+
+  @@map("competicoes")
+}
+
+model Partida {
+  id             String    @id @default(cuid())
+  competicaoId   String    @map("competicao_id")
+  timeAId        String    @map("time_a_id")
+  timeBId        String    @map("time_b_id")
+  resultadoTimeA Int?      @map("resultado_time_a")
+  resultadoTimeB Int?      @map("resultado_time_b")
+  dataHora       DateTime  @map("data_hora")
+  linkVod        String?   @map("link_vod")
+
+  // Relacionamentos
+  competicao Competicao @relation(fields: [competicaoId], references: [id], onDelete: Cascade)
+  timeA      Time       @relation("TimeA", fields: [timeAId], references: [id])
+  timeB      Time       @relation("TimeB", fields: [timeBId], references: [id])
+
+  @@map("partidas")
+}
+
+// Enums
+enum Funcao {
+  ADMINISTRADOR @map("Administrador")
+  PUBLICO       @map("Público")
+  COMUNICACAO   @map("Comunicação")
+  PLAYER        @map("Player")
+  ESTAFE        @map("Estafe")
+  GESTAO        @map("Gestão")
+  VENDAS        @map("Vendas")
+}
+
+enum TipoEvento {
+  TREINO   @map("Treino")
+  PARTIDA  @map("Partida")
+  REUNIAO  @map("Reunião")
+}
+
+enum StatusNoticia {
+  RASCUNHO  @map("Rascunho")
+  PUBLICADO @map("Publicado")
+}
+
+enum StatusPedido {
+  PROCESSANDO       @map("Processando")
+  PAGAMENTO_APROVADO @map("Pagamento Aprovado")
+  ENVIADO           @map("Enviado")
+  ENTREGUE          @map("Entregue")
+  CANCELADO         @map("Cancelado")
+}
