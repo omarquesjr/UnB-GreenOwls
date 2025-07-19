@@ -83,10 +83,10 @@ export default function FeaturedNews() {
     <div className="space-y-12">
       {/* Section Header */}
       <div className="text-center">
-        <h2 className="text-2xl md:text-3xl font-gaming text-white mb-2">
-          ÚLTIMAS <span className="text-gradient">NOTÍCIAS</span>
+        <h2 className="alc-widget__title text-center">
+          ÚLTIMAS <span className="alc-text-primary">NOTÍCIAS</span>
         </h2>
-        <p className="text-gray-400">
+        <p className="alc-text-secondary">
           Fique por dentro de tudo que acontece no mundo dos Green Owls
         </p>
       </div>
@@ -94,43 +94,44 @@ export default function FeaturedNews() {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Main Featured Article */}
         <div className="lg:col-span-2">
-          <article className="news-card rounded-xl overflow-hidden">
+          <article className="alc-post-card">
             {/* Featured Image */}
-            <div className="relative h-80 bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-blue-500/10 overflow-hidden">
+            <div className="alc-post-card__image">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-blue-500/10"></div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               
               {/* Category Badges */}
               <div className="absolute top-4 left-4 space-x-2">
-                <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-gaming uppercase tracking-wide">
+                <span className="alc-post-card__category">
                   {featuredNews.category}
                 </span>
-                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-gaming uppercase tracking-wide">
+                <span className="alc-post-card__category bg-blue-500">
                   {featuredNews.game}
                 </span>
               </div>
 
               {/* Article Meta in Image */}
               <div className="absolute bottom-4 left-4 right-4">
-                <h1 className="text-2xl md:text-3xl font-gaming text-white mb-2 leading-tight">
+                <h1 className="text-2xl md:text-3xl font-heading alc-text-primary mb-2 leading-tight">
                   {featuredNews.title}
                 </h1>
-                <p className="text-gray-200 mb-4 line-clamp-2">
+                <p className="alc-text-secondary mb-4 line-clamp-2">
                   {featuredNews.subtitle}
                 </p>
               </div>
             </div>
 
             {/* Article Footer */}
-            <div className="p-6">
+            <div className="alc-post-card__content">
               <div className="flex items-center justify-between">
                 {/* Author Info */}
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
                     <User className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <p className="text-white font-gaming text-sm">{featuredNews.author}</p>
-                    <div className="flex items-center space-x-4 text-xs text-gray-400">
+                    <p className="alc-text-primary font-heading text-sm">{featuredNews.author}</p>
+                    <div className="alc-post-card__meta">
                       <span className="flex items-center">
                         <Calendar className="w-3 h-3 mr-1" />
                         {new Date(featuredNews.date).toLocaleDateString('pt-BR')}
@@ -145,8 +146,8 @@ export default function FeaturedNews() {
 
                 {/* Engagement Stats */}
                 <div className="flex items-center space-x-4 text-sm">
-                  <span className="stat-highlight">{featuredNews.views}</span>
-                  <span className="flex items-center text-gray-400">
+                  <span className="alc-text-primary font-bold">{featuredNews.views}</span>
+                  <span className="flex items-center alc-text-muted">
                     <Eye className="w-4 h-4 mr-1" />
                     {featuredNews.views}
                   </span>

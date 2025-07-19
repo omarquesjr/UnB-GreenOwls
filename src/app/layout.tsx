@@ -1,43 +1,23 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter, Orbitron } from 'next/font/google'
-import { ThemeProvider } from '@/components/theme-provider'
-import { Toaster } from '@/components/ui/toaster'
+import type { Metadata } from "next"
+import { Open_Sans, Roboto_Condensed } from "next/font/google"
+import "./globals.css"
+import Header from "@/components/layout/header"
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter'
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-opensans",
+  display: "swap",
 })
 
-const orbitron = Orbitron({ 
-  subsets: ['latin'],
-  variable: '--font-orbitron'
+const robotoCondensed = Roboto_Condensed({
+  subsets: ["latin"],
+  variable: "--font-roboto-condensed",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: 'UnB Green Owls - Esports Club',
-  description: 'Clube de esportes eletrônicos da Universidade de Brasília',
-  keywords: ['esports', 'gaming', 'university', 'brasilia', 'league of legends', 'valorant', 'cs2'],
-  authors: [{ name: 'UnB Green Owls' }],
-  icons: {
-    icon: '/images/green-owls.png',
-    shortcut: '/images/green-owls.png',
-    apple: '/apple-touch-icon.png',
-  },
-  openGraph: {
-    title: 'UnB Green Owls - Esports Club',
-    description: 'Clube de esportes eletrônicos da Universidade de Brasília',
-    type: 'website',
-    locale: 'pt_BR',
-    images: [
-      {
-        url: '/images/green-owls.png',
-        width: 1440,
-        height: 1440,
-        alt: 'UnB Green Owls Logo',
-      },
-    ],
-  },
+  title: "Green Owls - eSports UnB",
+  description: "Equipe de eSports da Universidade de Brasília",
 }
 
 export default function RootLayout({
@@ -46,20 +26,72 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${orbitron.variable}`}>
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-      </head>
-      <body className="min-h-screen bg-slate-900 font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+    <html lang="pt-BR" className={`${openSans.variable} ${robotoCondensed.variable}`}>
+      <body>
+        <div className="wrapper">
+          <Header />
+          <main className="site-content">
+            {children}
+          </main>
+          <footer className="alc-footer">
+            <div className="alc-footer__widgets">
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-4">
+                    <div className="alc-widget">
+                      <h5 className="alc-widget__title">Sobre os Green Owls</h5>
+                      <p>
+                        Somos uma equipe de eSports da Universidade de Brasília, 
+                        dedicada à excelência competitiva e ao desenvolvimento de 
+                        talentos no cenário dos jogos eletrônicos.
+                      </p>
+                      <div className="alc-social-links">
+                        <a href="#" className="alc-social-link">Discord</a>
+                        <a href="#" className="alc-social-link">X</a>
+                        <a href="#" className="alc-social-link">Twitch</a>
+                        <a href="#" className="alc-social-link">IG</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-lg-4">
+                    <div className="alc-widget">
+                      <h5 className="alc-widget__title">Links Rápidos</h5>
+                      <ul style={{ listStyle: 'none', padding: 0 }}>
+                        <li style={{ marginBottom: '8px' }}>
+                          <a href="/equipe" style={{ color: '#999', fontSize: '14px' }}>Nossa Equipe</a>
+                        </li>
+                        <li style={{ marginBottom: '8px' }}>
+                          <a href="/partidas" style={{ color: '#999', fontSize: '14px' }}>Partidas</a>
+                        </li>
+                        <li style={{ marginBottom: '8px' }}>
+                          <a href="/noticias" style={{ color: '#999', fontSize: '14px' }}>Notícias</a>
+                        </li>
+                        <li style={{ marginBottom: '8px' }}>
+                          <a href="/contato" style={{ color: '#999', fontSize: '14px' }}>Contato</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="col-lg-4">
+                    <div className="alc-widget">
+                      <h5 className="alc-widget__title">Contato</h5>
+                      <div style={{ color: '#999', fontSize: '14px' }}>
+                        <p>Universidade de Brasília<br />Campus Darcy Ribeiro</p>
+                        <p>Email: greenowls@unb.br</p>
+                        <p>Discord: Green Owls UnB</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="alc-footer__copyright">
+              <div className="container">
+                <p>&copy; 2024 Green Owls eSports. Todos os direitos reservados.</p>
+              </div>
+            </div>
+          </footer>
+        </div>
       </body>
     </html>
   )

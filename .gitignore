@@ -50,3 +50,6 @@ dist-ssr
 
 # OS
 Thumbs.db
+
+# Template
+/Alchemists

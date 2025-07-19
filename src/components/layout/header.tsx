@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { GreenOwlsLogo } from '@/components/ui/logo'
 import { 
   Menu, 
   X, 
@@ -14,7 +14,11 @@ import {
   Users,
   Store,
   Search,
-  Bell
+  Bell,
+  Facebook,
+  Twitter,
+  Youtube,
+  Instagram
 } from 'lucide-react'
 
 export default function Header() {
@@ -29,139 +33,146 @@ export default function Header() {
   ]
 
   return (
-    <header className="bg-background/95 backdrop-blur-strong border-b border-green-500/20 sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        {/* Top Bar */}
-        <div className="flex justify-between items-center py-2 border-b border-gray-800 text-sm">
-          <div className="flex items-center space-x-4 text-gray-400">
-            <span>UnB Esports Club</span>
-            <span className="hidden md:inline">•</span>
-            <span className="hidden md:inline">Brasília, DF</span>
-          </div>
-          
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-green-400 w-8 h-8">
-              <Bell className="w-4 h-4" />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-green-400 w-8 h-8">
-              <Search className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Main Navigation */}
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <GreenOwlsLogo 
-                width={48} 
-                height={48} 
-                className="neon-border rounded-lg p-1 group-hover:animate-pulse-glow transition-all"
-              />
-            </div>
-            <div className="hidden lg:block">
-              <div className="text-white font-gaming text-xl text-gradient">GREEN OWLS</div>
-              <div className="text-green-400 text-xs font-medium uppercase tracking-wider">University of Brasília</div>
-            </div>
+    <>
+      {/* Header Mobile */}
+      <div className="header-mobile clearfix md:hidden" id="header-mobile">
+        <div className="header-mobile__logo">
+          <Link href="/">
+            <Image 
+              src="/images/green-owls.png" 
+              alt="Green Owls" 
+              width={120}
+              height={40}
+              className="header-mobile__logo-img"
+            />
           </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center">
-            <nav className="flex items-center space-x-1">
-              {navigation.map((item, index) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="group relative px-4 py-2 text-gray-300 hover:text-green-400 transition-all duration-300 flex items-center space-x-2 font-medium"
-                >
-                  <item.icon className="w-4 h-4" />
-                  <span className="uppercase tracking-wide text-sm">{item.name}</span>
-                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-green-400 to-emerald-500 group-hover:w-full transition-all duration-300"></div>
-                </Link>
-              ))}
-            </nav>
-          </div>
-
-          {/* Right Side - Cart & Auth */}
-          <div className="hidden md:flex items-center space-x-3">
-            {/* Shopping Cart */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative text-gray-300 hover:text-green-400 gaming-card w-10 h-10 rounded-lg"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 bg-gradient-to-r from-green-400 to-emerald-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                0
-              </span>
-            </Button>
-            
-            {/* Divider */}
-            <div className="w-px h-6 bg-gray-700"></div>
-            
-            {/* Auth Buttons */}
-            <Button
-              variant="ghost"
-              className="text-gray-300 hover:text-green-400 font-medium uppercase tracking-wide text-sm"
-            >
-              <User className="w-4 h-4 mr-2" />
-              Login
-            </Button>
-            
-            <Button
-              className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-gaming px-6 py-2 text-sm neon-border"
-            >
-              Join Team
-            </Button>
-          </div>
-
-          {/* Mobile menu button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden text-gray-300 hover:text-green-400 gaming-card w-10 h-10 rounded-lg"
+        </div>
+        <div className="header-mobile__inner">
+          <button 
+            id="header-mobile__toggle" 
+            className="burger-menu-icon"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
+            <span className="burger-menu-icon__line"></span>
+          </button>
+          <span className="header-mobile__search-icon" id="header-mobile__search-icon"></span>
+        </div>
+      </div>
+
+      {/* Header Desktop */}
+      <header className="header header--layout-3">
+        {/* Header Top Bar */}
+        <div className="header__top-bar clearfix">
+          <div className="container">
+            <div className="header__top-bar-inner">
+              {/* Social Links */}
+              <ul className="social-links social-links--inline social-links--main-nav social-links--top-bar">
+                <li className="social-links__item">
+                  <a href="#" className="social-links__link" title="Facebook">
+                    <Facebook className="w-4 h-4" />
+                  </a>
+                </li>
+                <li className="social-links__item">
+                  <a href="#" className="social-links__link" title="Twitter">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                </li>
+                <li className="social-links__item">
+                  <a href="#" className="social-links__link" title="YouTube">
+                    <Youtube className="w-4 h-4" />
+                  </a>
+                </li>
+                <li className="social-links__item">
+                  <a href="#" className="social-links__link" title="Instagram">
+                    <Instagram className="w-4 h-4" />
+                  </a>
+                </li>
+              </ul>
+
+              {/* Account Navigation */}
+              <ul className="nav-account">
+                <li className="nav-account__item">
+                  <a href="#">UnB Esports Club</a>
+                </li>
+                <li className="nav-account__item">
+                  <a href="#">Brasília, DF</a>
+                </li>
+                <li className="nav-account__item">
+                  <a href="/conta">Sua Conta</a>
+                </li>
+                <li className="nav-account__item nav-account__item--logout">
+                  <a href="/login">Login</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="gaming-card p-4 mt-2 space-y-3">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-300 hover:text-green-400 block px-3 py-3 rounded-lg hover:bg-green-500/10 transition-colors duration-200 flex items-center space-x-3 font-medium"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <item.icon className="w-5 h-5" />
-                  <span className="uppercase tracking-wide">{item.name}</span>
+        {/* Header Primary */}
+        <div className="header__primary">
+          <div className="container">
+            <div className="header__primary-inner">
+              {/* Main Navigation - Toda à esquerda */}
+              <nav className="main-nav main-nav--left">
+                <ul className="main-nav__list">
+                  <li className="active"><Link href="/">Home</Link></li>
+                  <li><Link href="/equipe">Equipe</Link></li>
+                  <li><Link href="/partidas">Partidas</Link></li>
+                  <li><Link href="/noticias">Notícias</Link></li>
+                  <li><Link href="/sobre">Sobre</Link></li>
+                  <li><Link href="/contato">Contato</Link></li>
+                </ul>
+              </nav>
+
+              {/* Header Logo - Centralizada */}
+              <div className="header-logo">
+                <Link href="/">
+                  <Image 
+                    src="/images/green-owls.png" 
+                    alt="Green Owls" 
+                    width={280}
+                    height={140}
+                    className="header-logo__img"
+                  />
                 </Link>
-              ))}
-              
-              <div className="border-t border-gray-700 pt-4 mt-4 space-y-3">
-                <Button
-                  variant="ghost"
-                  className="w-full text-gray-300 hover:text-green-400 font-medium justify-start"
-                >
-                  <User className="w-4 h-4 mr-3" />
-                  Login
-                </Button>
-                
-                <Button
-                  className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-gaming"
-                >
-                  Join Team
-                </Button>
+              </div>
+
+              {/* Header Right - Busca e Carrinho */}
+              <div className="header__right">
+                <div className="header__search">
+                  <input type="text" placeholder="Buscar..." />
+                  <button type="submit">
+                    <Search className="w-4 h-4" />
+                  </button>
+                </div>
+                <Link href="/loja" className="header__cart">
+                  <ShoppingCart className="w-4 h-4" />
+                  Loja
+                </Link>
               </div>
             </div>
           </div>
-        )}
-      </div>
-    </header>
+        </div>
+      </header>
+
+      {/* Mobile Navigation Overlay */}
+      {isMenuOpen && (
+        <div className="mobile-nav-overlay md:hidden">
+          <div className="mobile-nav-content">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="mobile-nav-item"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <item.icon className="w-5 h-5" />
+                <span>{item.name}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   )
 }

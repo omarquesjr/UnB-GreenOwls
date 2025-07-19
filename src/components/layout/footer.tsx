@@ -108,8 +108,7 @@ export default function Footer() {
             </Link>
             
             <p className="text-gray-300 leading-relaxed">
-              O maior clube de esports da Universidade de Brasília. Unidos pela paixão, 
-              forjados pela competição, destinados à vitória.
+              O clube de eSports oficial da Universidade de Brasília. O maior do Centro-Oeste.
             </p>
             
             <div className="space-y-3">
