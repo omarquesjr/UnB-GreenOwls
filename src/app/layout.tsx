@@ -18,6 +18,9 @@ const robotoCondensed = Roboto_Condensed({
 export const metadata: Metadata = {
   title: "Green Owls - eSports UnB",
   description: "Equipe de eSports da Universidade de Brasília",
+  icons: {
+    icon: "/images/green-owls.ico",
+  },
 }
 
 export default function RootLayout({
